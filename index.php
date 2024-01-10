@@ -5,16 +5,24 @@ require __DIR__ . "/functions.php";
 $email = '';
 // variabile per messaggio da stampare dopo controllo
 $message = '';
-// variabile che mi dice se mostrata il messaggio(dopo controllo) o no(al caricamento della pagina)
+// variabile che mi dice se mostrare il messaggio(dopo controllo) o no(al caricamento della pagina)
 $show_msg = false;
 // variabile dove salvo la classe da dare al messaggio in base a successo o no del controllo
 $class_msg = '';
 
+// caso sia successo che non con alert BOOSTRAP
 if (!empty($_GET['email'])) {
   $email = trim($_GET['email']);
   $show_msg = true;
   $message = createMessage(checkEmail($email));
   $class_msg = checkEmail($email) ? 'alert-success' : 'alert-danger';
+}
+// caso successo reindirizzamento
+if (checkEmail($email)) {
+  session_start();
+  $_SESSION['mail_registrazione'] = $email;
+  header('Location: thankyou.php');
+  die;
 }
 
 
