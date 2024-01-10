@@ -1,13 +1,22 @@
 <?php
 // importo la funzione da usare nel mio programma
 require __DIR__ . "/functions.php";
+//variabile per mail ricevuta
+$email = '';
+// variabile per messaggio da stampare dopo controllo
+$message = '';
+// variabile che mi dice se mostrata il messaggio(dopo controllo) o no(al caricamento della pagina)
+$show_msg = false;
+// variabile dove salvo la classe da dare al messaggio in base a successo o no del controllo
+$class_msg = '';
 
-// salvo la mail ricevuta in una variabile
-$email = $_GET['email'] ?? '';
-// messaggio di successo o errore
-$message = checkEmail($email)[0];
-// variabile per dire se mostrare il messaggio o no
-$show_msg = checkEmail($email)[1];
+if (!empty(trim($_GET['email']))) {
+  $email = trim($_GET['email']);
+  $show_msg = true;
+  $message = createMessage(checkEmail($email));
+  $class_msg = checkEmail($email) ? 'alert-success' : 'alert-danger';
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -35,7 +44,8 @@ $show_msg = checkEmail($email)[1];
         </div>
         <button class="btn btn-primary ">Invia</button>
       </form>
-      <div class="alert alert-info mt-3 <?php if (!$show_msg) : ?> d-none <?php endif ?>" role="alert">
+      <div class="alert  mt-3 <?php echo $class_msg ?>
+      <?php if (!$show_msg) : ?> d-none <?php endif ?>" role="alert">
         <?php echo $message ?>
       </div>
     </div>

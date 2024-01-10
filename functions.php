@@ -1,13 +1,17 @@
 <?php
-// funzione con argomento una mail da controllare, restituisce un array con un messaggio e un valore booleano per mostrare il messaggio o no
+// funzione che controlla se la mail contiene partendo da fine stringa sia una chiocciola che un punto
 function checkEmail($mail)
 {
-  if (empty($mail)) {
-    return ['', false];
-  }
   if (strrpos($mail, '@') === false || strrpos($mail, '.') === false) {
-    return ['L\'email inserita NON rispetta il formato richiesto.', true];
-  } else {
-    return ['L\'email inserita rispetta il formato richiesto.', true];
+    return false;
   }
+  return true;
+}
+// funzione che restituisce un messaggio come stringa a seconda che si abbia avuto successo o meno
+function createMessage($success)
+{
+  if ($success) {
+    return 'L \'email inserita rispetta il formato richiesto';
+  }
+  return 'L \'email inserita NON rispetta il formato richiesto';
 }
