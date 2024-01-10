@@ -21,15 +21,23 @@
 // dove usiamo la session per mostrare anche l'indirizzo email con cui ci siamo "registrati"
 
 
+$message = '';
+$mail = '';
+$show_msg = false;
+
 if (!empty($_GET['email'])) {
   $mail = $_GET['email'];
-  if (strrpos($mail, '@') === false && strrpos($mail, '.') === false) {
-    echo 'mail non corretta';
+  if (strrpos($mail, '@') === false || strrpos($mail, '.') === false) {
+    $show_msg = true;
+    $message = 'L\'email inserita non rispetta il formato richiesto.';
   } else {
-    echo 'mail corretta';
+    $show_msg = true;
+    $message = 'L\'email inserita rispetta il formato richiesto.';
   }
 }
 
+// var_dump(strrpos($mail, '@'));
+// var_dump(strrpos($mail, '.'));
 
 ?>
 <!DOCTYPE html>
@@ -57,6 +65,9 @@ if (!empty($_GET['email'])) {
         </div>
         <button class="btn btn-primary ">Invia</button>
       </form>
+      <div class="alert alert-info mt-3 <?php if (!$show_msg) : ?> d-none <?php endif ?>" role="alert">
+        <?php echo $message ?>
+      </div>
     </div>
   </main>
 </body>
