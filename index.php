@@ -10,7 +10,7 @@ $show_msg = false;
 // variabile dove salvo la classe da dare al messaggio in base a successo o no del controllo
 $class_msg = '';
 
-if (!empty(trim($_GET['email']))) {
+if (!empty($_GET['email'])) {
   $email = trim($_GET['email']);
   $show_msg = true;
   $message = createMessage(checkEmail($email));
