@@ -7,11 +7,3 @@ function checkEmail($mail)
   }
   return true;
 }
-// funzione che restituisce un messaggio come stringa a seconda che si abbia avuto successo o meno
-function createMessage($success)
-{
-  if ($success) {
-    return 'L \'email inserita rispetta il formato richiesto';
-  }
-  return 'L \'email inserita NON rispetta il formato richiesto';
-}

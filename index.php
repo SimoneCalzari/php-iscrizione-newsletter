@@ -1,28 +1,27 @@
 <?php
 // importo la funzione da usare nel mio programma
 require __DIR__ . "/functions.php";
-//variabile per mail ricevuta
-$email = '';
-// variabile per messaggio da stampare dopo controllo
-$message = '';
-// variabile che mi dice se mostrare il messaggio(dopo controllo) o no(al caricamento della pagina)
-$show_msg = false;
-// variabile dove salvo la classe da dare al messaggio in base a successo o no del controllo
-$class_msg = '';
 
-// caso sia successo che non con alert BOOSTRAP
-if (!empty($_GET['email'])) {
-  $email = trim($_GET['email']);
-  $show_msg = true;
-  $message = createMessage(checkEmail($email));
-  $class_msg = checkEmail($email) ? 'alert-success' : 'alert-danger';
+// caso di default al primo caricamento della pagina dove non mostro il messaggio d'errore
+if (empty($_GET['email'])) {
+  // variabile che da d-none al div col messaggio d'errore
+  $show_msg = false;
 }
-// caso successo reindirizzamento
-if (checkEmail($email)) {
-  session_start();
-  $_SESSION['mail_registrazione'] = $email;
-  header('Location: thankyou.php');
-  die;
+// caso in cui ho inviato la mail
+else {
+  // salvo mail in una variabile
+  $email = trim($_GET['email']);
+  // salvo risultato del controllo su mail
+  $email_result = checkEmail($email);
+  // caso controllo positivo e reindirizzamento alla pagina thankyou.php
+  if ($email_result) {
+    session_start();
+    $_SESSION['mail_registrazione'] = $email;
+    header('Location: thankyou.php');
+    die;
+  }
+  // caso controllo negativo e mostro messaggio d'errore
+  $show_msg = true;
 }
 
 
@@ -52,9 +51,9 @@ if (checkEmail($email)) {
         </div>
         <button class="btn btn-primary ">Invia</button>
       </form>
-      <div class="alert  mt-3 <?php echo $class_msg ?>
+      <div class="alert  mt-3 alert-danger
       <?php if (!$show_msg) : ?> d-none <?php endif ?>" role="alert">
-        <?php echo $message ?>
+        L'email inserita non rispetto il formato richiesto, riprovarne una diversa
       </div>
     </div>
   </main>
