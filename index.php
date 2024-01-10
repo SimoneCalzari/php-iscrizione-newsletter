@@ -1,43 +1,13 @@
 <?php
-// Creare una pagina index.php con un form (che richiama la stessa pagina) per l'inserimento di un indirizzo email.
-// Controllare che la mail  passata in GET sia ben formata e contenga un punto e una chiocciola.
-// Usare un alert di Bootstrap (il componente HTML/CSS, non alert JS) per mostrare il messaggio di:
-// successo: la mail contiene un punto e una chiocciola;
-// errore: la mail NON contiene un punto e una chiocciola;
+// importo la funzione da usare nel mio programma
+require __DIR__ . "/functions.php";
 
-// Milestone 1
-// Logica tutta dentro index.php, mostrare il messaggio di successo/errore dentro un alert di Bootstrap;
-
-// Milestone 2
-// Spostare la logica dentro functions.php (include);
-
-// BONUS
-
-// Milestone 3
-// invece di usare una classe statica per lo stile dell’alert, modificarla in base all’esito della funzione.
-
-// Milestone 4
-// invece di visualizzare il messaggio di success nella index.php, in caso di esito positivo effettuare un redirect ad una thankyou page
-// dove usiamo la session per mostrare anche l'indirizzo email con cui ci siamo "registrati"
-
-
-$message = '';
-$mail = '';
-$show_msg = false;
-
-if (!empty($_GET['email'])) {
-  $mail = $_GET['email'];
-  if (strrpos($mail, '@') === false || strrpos($mail, '.') === false) {
-    $show_msg = true;
-    $message = 'L\'email inserita non rispetta il formato richiesto.';
-  } else {
-    $show_msg = true;
-    $message = 'L\'email inserita rispetta il formato richiesto.';
-  }
-}
-
-// var_dump(strrpos($mail, '@'));
-// var_dump(strrpos($mail, '.'));
+// salvo la mail ricevuta in una variabile
+$email = $_GET['email'] ?? '';
+// messaggio di successo o errore
+$message = checkEmail($email)[0];
+// variabile per dire se mostrare il messaggio o no
+$show_msg = checkEmail($email)[1];
 
 ?>
 <!DOCTYPE html>
